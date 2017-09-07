@@ -13,7 +13,14 @@ from keras.applications.xception import Xception
 batch_size = 10
 
 # this is the augmentation configuration we will use for training
-train_datagen = ImageDataGenerator(rescale=1./255)
+train_datagen = ImageDataGenerator(rotation_range=40,
+                                   width_shift_range=0.2,
+                                   height_shift_range=0.2,
+                                   shear_range=0.2,
+                                   zoom_range=0.2,
+                                   horizontal_flip=True,
+                                   fill_mode='nearest',
+                                   rescale=1./255)
 
 # this is the augmentation configuration we will use for testing:
 # only rescaling
