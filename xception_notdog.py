@@ -43,7 +43,7 @@ validation_generator = test_datagen.flow_from_directory(
         class_mode='binary')
 
 
-base_model = Xception(weights='imagenet', include_top=False, input_shape=(299, 299, 3))
+base_model = Xception(include_top=False, input_shape=(299, 299, 3))
 
 
 # Freeze convolutional layers
@@ -61,6 +61,8 @@ x = Activation('sigmoid')(x)
 
 model = Model(inputs=base_model.input, outputs=x)
 
+model.load_weights('xception_backalayer_notdog.h5')
+
 model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
             loss='binary_crossentropy', metrics=['accuracy'])
 
@@ -71,7 +73,7 @@ model.fit_generator(
         epochs=5,
         validation_data=validation_generator,
         validation_steps=15367 // batch_size)
-model.save_weights('xception_backalayer_notdog.h5')
+model.save_weights('xception_backalayer_imgaug_notdog.h5')
 
 
 
