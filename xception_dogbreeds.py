@@ -53,7 +53,7 @@ base_model = Xception(include_top=False, input_shape=(299, 299, 3))
 
 
 # Freeze convolutional layers
-for layer in base_model.layers:
+for layer in base_model.layers[:-3]:
     layer.trainable = False
 
 
@@ -61,13 +61,14 @@ for layer in base_model.layers:
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
 x = Dense(1000)(x)
+x = Dropout(0.5, name="dropout")(x)
 x = Dense(114, name="categories_dense")(x)
-x = Activation('sigmoid')(x)
+x = Activation('softmax')(x)
 
 
 model = Model(inputs=base_model.input, outputs=x)
 
-model.load_weights('xception_backalayer_imgaug_notdog.h5', by_name=True)
+model.load_weights('xception_breeds_weighted.h5', by_name=True)
 
 model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
             loss='categorical_crossentropy', metrics=['accuracy'])
@@ -80,7 +81,7 @@ model.fit_generator(
         class_weight=class_weights,
         validation_data=validation_generator,
         validation_steps=20437 // batch_size)
-model.save_weights('xception_breeds_weighted.h5')
+model.save_weights('xception_breeds_wgt_reg_conv.h5')
 
 
 
