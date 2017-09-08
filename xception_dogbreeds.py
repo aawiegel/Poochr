@@ -47,13 +47,14 @@ base_model = Xception(include_top=False, input_shape=(299, 299, 3))
 
 
 # Freeze convolutional layers
-for layer in base_model.layers[:-3]:
+for layer in base_model.layers:
     layer.trainable = False
 
 
 
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
+x = Dense(1000)(x)
 x = Dense(114, name="categories_dense")(x)
 x = Activation('sigmoid')(x)
 
@@ -70,9 +71,10 @@ model.fit_generator(
         train_generator,
         steps_per_epoch=32745 // batch_size,
         epochs=5,
+        verbose=2,
         validation_data=validation_generator,
         validation_steps=17374 // batch_size)
-model.save_weights('xception_breeds_multiclass.h5')
+model.save_weights('xception_breeds_multiclass_fixed_conv.h5')
 
 
 
