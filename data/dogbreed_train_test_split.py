@@ -29,8 +29,7 @@ to_remove = ['n02115641-dingo',
              'n02116738-African_hunting_dog',
              'n02113624-toy_poodle',
              'n02113712-miniature_poodle',
-             'n02105412-kelpie',
-             'n02093428-American_Staffordshire_terrier']
+             'n02105412-kelpie']
 
 for remove in to_remove:
     categories.remove(remove)
