@@ -53,7 +53,7 @@ base_model = Xception(include_top=False, input_shape=(299, 299, 3))
 
 
 # Freeze convolutional layers
-for layer in base_model.layers[:-3]:
+for layer in base_model.layers:
     layer.trainable = False
 
 
@@ -77,7 +77,7 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
 model.fit_generator(
         train_generator,
         steps_per_epoch=(29682 * 1.2) // batch_size,
-        epochs=5,
+        epochs=2,
         class_weight=class_weights,
         validation_data=validation_generator,
         validation_steps=20437 // batch_size)
