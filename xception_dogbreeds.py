@@ -44,6 +44,10 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=batch_size,
         class_mode='categorical')
 
+# Save category indices
+
+np.save('breed_indices.npy', validation_generator.class_indices)
+
 # Find the class weights since not_dog is overrepresented
 class_weight = class_weight.compute_class_weight('balanced', np.unique(train_generator.classes),train_generator.classes)
 
