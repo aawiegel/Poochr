@@ -68,7 +68,7 @@ x = Activation('softmax')(x)
 
 model = Model(inputs=base_model.input, outputs=x)
 
-model.load_weights('xception_breeds_wgt_reg_conv3.h5', by_name=True)
+model.load_weights('xception_breeds_wgt_reg_conv4.h5', by_name=True)
 
 model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
             loss='categorical_crossentropy', metrics=['accuracy'])
@@ -77,11 +77,11 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9),
 model.fit_generator(
         train_generator,
         steps_per_epoch=(29682 * 1.2) // batch_size,
-        epochs=5,
+        epochs=10,
         class_weight=class_weights,
         validation_data=validation_generator,
         validation_steps=20437 // batch_size)
-model.save_weights('xception_breeds_wgt_reg_conv4.h5')
+model.save_weights('xception_breeds_wgt_reg_conv5.h5')
 
 
 
