@@ -1,0 +1,20 @@
+
+{% extends "bootstrap/base.html" %}
+{% block title %}Poochr{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Poochr</h1>
+    <p>Your next dog today!</p>
+  </div>
+</div>
+
+<div class = "container">
+  <p>The dog image you provided:</p>
+  <img src="{{ url_for('send_file', filename=filename) }}" class="img-rounded" alt="Dog image">
+</div>
+<br>
+{% endblock %}
+
