@@ -13,7 +13,8 @@
 
 <div class = "container">
   <p>The dog image you provided:</p>
-  <img src="{{ url_for('send_file', filename=filename) }}" class="img-rounded" alt="Dog image">
+  <img src="{{ url_for('send_file', filename=filename) }}" class="img-rounded" alt="Dog image" style="width:30%;">
+  <p>{{ message }}</p>
 </div>
 <br>
 {% endblock %}
