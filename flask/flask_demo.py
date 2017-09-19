@@ -16,8 +16,6 @@ from werkzeug.utils import secure_filename
 
 import pickle
 
-from scipy.sparse import load_npz
-
 from keras.models import load_model
 from keras.preprocessing import image
 from keras.applications.xception import preprocess_input
@@ -33,13 +31,16 @@ index_to_breed = {v: k for k, v in breed_to_index.items()}
 max_breed_mat = np.load('../breed_max_matrix.npy')
 with open('../dog_vocabulary.p', 'rb') as file:
     dog_vocab = pickle.load(file)
-dog_tfidf_mat = load_npz('../dog_vocab_matrix.npz')
+with open('../dog_lsa_matrix.npy', 'rb') as file:
+    dog_lsa_mat = np.load(file)
 
 generate_dog_features = K.function([model.layers[0].input, K.learning_phase()],
                                   [model.layers[-2].output])
 
 dog_tfidf = TfidfVectorizer(vocabulary=dog_vocab, ngram_range = (1,2))
 
+with open('../breed_lsa.p', 'rb') as file:
+    breed_lsa = pickle.load(file)
 
 app_root = os.path.dirname(os.path.abspath(__file__))
 
@@ -50,6 +51,7 @@ allowed_ext = set(['jpg', 'jpeg', 'png', 'gif'])
 imgsize = 500, 500
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Bootstrap(app)
 app.secret_key = 'seeeeecrets'
 app.config['UPLOAD_FOLDER'] = upload_dir
@@ -82,7 +84,7 @@ def upload_file():
                 file.write(desc)
             return redirect(url_for('predict_file',
                                     filename=filename))
-    return render_template('index_orig.html')
+    return render_template('landing_page.html')
 
 
 @app.route('/predict/<filename>')
@@ -105,10 +107,11 @@ def predict_file(filename):
     if best_guess == 114:
         message += "Are you sure this is a dog?<br/>"
 
-    dog_text_vec = dog_tfidf.fit_transform([desc])        
+    dog_text_vec = dog_tfidf.fit_transform([desc])
+    dog_lsa_vec = breed_lsa.transform(dog_text_vec)        
 
     image_similarity = cosine_similarity(max_breed_mat, dog_vec[0])
-    text_similarity = cosine_similarity(dog_tfidf_mat, dog_text_vec)
+    text_similarity = cosine_similarity(dog_lsa_mat, dog_lsa_vec)
     guess = np.argmax(image_similarity.T)
     message += "The closest dog based on the image is "+\
             index_to_breed[guess].split("-", 1)[1]
