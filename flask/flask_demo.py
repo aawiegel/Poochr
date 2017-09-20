@@ -55,6 +55,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Bootstrap(app)
 app.secret_key = 'seeeeecrets'
 app.config['UPLOAD_FOLDER'] = upload_dir
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -65,6 +66,10 @@ def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
         desc = request.form['desc']
+        
+        if len(desc) > 10000:
+            flash('Shorten your text description to less than 10000 characters.')
+            return redirect(request.url)
         
         if 'image' not in request.files:
             flash('No file part')
@@ -96,7 +101,7 @@ def predict_file(filename):
     with open(dog_txt_file, 'r') as file:
         desc = file.read()
     
-    message = desc
+    messages = [desc]
     
     img = image.load_img(dog_path, target_size=(299,299))
     img = image.img_to_array(img)
@@ -105,26 +110,35 @@ def predict_file(filename):
     dog_vec = generate_dog_features([img, 0])
     best_guess = np.argmax(dog_vec)
     if best_guess == 114:
-        message += "Are you sure this is a dog?<br/>"
+        messages.append("""Are you sure this is a dog? 
+                        Well, I'll give you recommendations, but I doubt they'll be
+                        good.""")
 
     dog_text_vec = dog_tfidf.fit_transform([desc])
     dog_lsa_vec = breed_lsa.transform(dog_text_vec)        
 
     image_similarity = cosine_similarity(max_breed_mat, dog_vec[0])
     text_similarity = cosine_similarity(dog_lsa_mat, dog_lsa_vec)
-    guess = np.argmax(image_similarity.T)
-    message += "The closest dog based on the image is "+\
-            index_to_breed[guess].split("-", 1)[1]
-    guess = np.argmax(text_similarity.T)
-    message += "<br>The closest dog based on the text is "+\
-            index_to_breed[guess].split("-", 1)[1]
+#    guess = np.argmax(image_similarity.T)
+#    message += "The closest dog based on the image is "+\
+#            index_to_breed[guess].split("-", 1)[1]
+#    guess = np.argmax(text_similarity.T)
+#    message += "<br>The closest dog based on the text is "+\
+#            index_to_breed[guess].split("-", 1)[1]
     weight = 0.5
     combined_sim = weight*image_similarity + (1-weight)*text_similarity
-    guess = np.argmax(combined_sim.T)
-    message += "<br>The closest dog based on both is "+\
-            index_to_breed[guess].split("-", 1)[1]
+    guesses = np.argsort(combined_sim.T)[0][::-1]
     
-    return render_template('picture_show.html', filename=filename, message=message)
+    with open(dog_txt_file, 'a') as file:
+        file.write("Best guess")
+        file.write(str(best_guess))
+        
+    labels = [index_to_breed[guess].split("-", 1)[0] for guess in guesses[:3]]
+    breeds = [index_to_breed[guess].split("-", 1)[1] for guess in guesses[:3]]
+    labels_breeds = zip(labels, breeds)
+    return render_template('predict_image.html', 
+                           filename=filename, messages=messages,
+                           labels_breeds = labels_breeds)
 
 @app.route('/uploads/<filename>')
 def send_file(filename):
