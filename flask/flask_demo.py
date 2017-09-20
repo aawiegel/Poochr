@@ -33,6 +33,8 @@ with open('../dog_vocabulary.p', 'rb') as file:
     dog_vocab = pickle.load(file)
 with open('../dog_lsa_matrix.npy', 'rb') as file:
     dog_lsa_mat = np.load(file)
+with open('../dogtime_urls.p', 'rb') as file:
+    dogtime_url_dict = pickle.load(file)
 
 generate_dog_features = K.function([model.layers[0].input, K.learning_phase()],
                                   [model.layers[-2].output])
@@ -135,10 +137,13 @@ def predict_file(filename):
         
     labels = [index_to_breed[guess].split("-", 1)[0] for guess in guesses[:3]]
     breeds = [index_to_breed[guess].split("-", 1)[1] for guess in guesses[:3]]
-    labels_breeds = zip(labels, breeds)
+    urls = [dogtime_url_dict[breed.lower()] for breed in breeds]
+    breeds = [url.split("/")[-1].replace("-", " ").replace("_", " ").title() \
+                  for url in urls]
+    labels_breeds_urls = zip(labels, breeds, urls)
     return render_template('predict_image.html', 
                            filename=filename, messages=messages,
-                           labels_breeds = labels_breeds)
+                           labels_breeds_urls = labels_breeds_urls)
 
 @app.route('/uploads/<filename>')
 def send_file(filename):
