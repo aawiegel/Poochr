@@ -84,26 +84,43 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-5 ml-auto">
+          {% for message in messages %}
+          <p class="lead">{{ message }}</p>
+          {% endfor %}
+          </div>
+          <div class="col-lg-5 ml-auto">
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
             The image you provided:
-            <img src="{{ url_for('send_file', filename=filename) }}" class="img-rounded" style="width:50%;">
+            <img src="{{ url_for('send_file', filename=filename) }}" class="img-fluid" style="width:50%;">
           </div>
         </div>
       </div>
-</form>
+    </section>
+
+<section class="content-section-b">
 <div class = "container">
-{% for message in messages %}
-   <br/>{{ message }}
+<p class="lead">Dog breeds you should consider:</p>
+</div>
+</section>
+{% for label, breed, url in labels_breeds_urls %}
+<section class="content-section-a">
+  <div class="row">
+    <div class="col-lg-5 ml-auto">
+      <div class="clearfix"></div>
+      <img src="{{ '/static/dogs/'+label+'.jpg' }}" class="img-fluid">
+    </div>
+    <div class="col-lg-5 mr-auto">
+      <hr class="section-heading-space">
+      <div class="clearfix"></div>
+      <br>
+      <p class="lead">Learn more about the <a href="{{ url }}">{{ breed }}</a>!</p>
+    </div>
+  </div>
+</section>
 {% endfor %}
 </div>
-<div class = "container">
-Dog breeds you should consider:</br>
-{% for label, breed in labels_breeds %}
-   <br/><img src="{{ '/static/dogs/'+label+'.jpg' }}" class="img-rounded" style="width:50%;">
-   <br/>{{ breed }}<br/>
-{% endfor %}
-</div>
+
 </div>
 
         </div>
@@ -169,16 +186,16 @@ Dog breeds you should consider:</br>
       <div class="container">
         <ul class="list-inline">
           <li class="list-inline-item">
-            <a href="#">Home</a>
+            <a href="/">Home</a>
           </li>
           <li class="footer-menu-divider list-inline-item">&sdot;</li>
           <li class="list-inline-item">
             <a href="#about">About</a>
           </li>
-          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <!--<li class="footer-menu-divider list-inline-item">&sdot;</li>
           <li class="list-inline-item">
             <a href="#services">Services</a>
-          </li>
+          </li>-->
           <li class="footer-menu-divider list-inline-item">&sdot;</li>
           <li class="list-inline-item">
             <a href="#contact">Contact</a>
