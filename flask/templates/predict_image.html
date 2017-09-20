@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Poochr: your next dog today!</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/landing.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Poochr: your next dog today!</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <!--<li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>-->
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="intro-header">
+      <div class="container">
+        <div class="intro-message">
+          <h1>Poochr</h1>
+          <h3>A dog breed recommendation system</h3>
+          <hr class="intro-divider">
+          <!--<ul class="list-inline intro-social-buttons">
+            <li class="list-inline-item">
+              <a href="#" class="btn btn-secondary btn-lg">
+                <i class="fa fa-twitter fa-fw"></i>
+                <span class="network-name">Twitter</span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#" class="btn btn-secondary btn-lg">
+                <i class="fa fa-github fa-fw"></i>
+                <span class="network-name">Github</span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#" class="btn btn-secondary btn-lg">
+                <i class="fa fa-linkedin fa-fw"></i>
+                <span class="network-name">Linkedin</span>
+              </a>
+            </li>
+          </ul>-->
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="content-section-a">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 ml-auto">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            The image you provided:
+            <img src="{{ url_for('send_file', filename=filename) }}" class="img-rounded" style="width:50%;">
+          </div>
+        </div>
+      </div>
+</form>
+<div class = "container">
+{% for message in messages %}
+   <br/>{{ message }}
+{% endfor %}
+</div>
+<div class = "container">
+Dog breeds you should consider:</br>
+{% for label, breed in labels_breeds %}
+   <br/><img src="{{ '/static/dogs/'+label+'.jpg' }}" class="img-rounded" style="width:50%;">
+   <br/>{{ breed }}<br/>
+{% endfor %}
+</div>
+</div>
+
+        </div>
+
+      </div>
+      <!-- /.container -->
+    </section>
+
+    <section class="content-section-b">
+
+      <div class="container" id="about">
+
+        <div class="row">
+          <div class="col-lg-5 mr-auto order-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Trained using transfer learning with Xception and ImageNet</h2>
+            <p class="lead">Images from <a href="http://vision.stanford.edu/aditya86/ImageNetDogs/">Stanford Dogs</a></p>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.container -->
+
+    </section>
+    <!-- /.content-section-b -->
+
+
+    <aside class="banner">
+
+      <div class="container" id="contact">
+
+        <div class="row">
+          <div class="col-lg-6 my-auto">
+            <h2>View the project code or connect with me:</h2>
+          </div>
+          <div class="col-lg-6 my-auto">
+            <ul class="list-inline banner-social-buttons">
+              <li class="list-inline-item">
+                <a href="https://www.github.com/aawiegel/Poochr" class="btn btn-secondary btn-lg">
+                  <i class="fa fa-github fa-fw"></i>
+                  <span class="network-name">Github</span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="http://www.linkedin.com/in/aawiegel" class="btn btn-secondary btn-lg">
+                  <i class="fa fa-linkedin fa-fw"></i>
+                  <span class="network-name">Linkedin</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.container -->
+
+    </aside>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">Home</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#about">About</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#services">Services</a>
+          </li>
+          <li class="footer-menu-divider list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+        <p class="copyright text-muted small">Copyright &copy; Your Company 2017. All Rights Reserved</p>
+        <p class="text-muted small">Theme provided by <a href="https://github.com/BlackrockDigital/startbootstrap-landing-page">Start Bootstrap</a></p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/popper/popper.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+$(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+       });
+    });
+});
+    </script>
+
+
+  </body>
+
+</html>
+
