@@ -21,7 +21,7 @@ random.shuffle(dog_files)
 random.seed(42)
 random.shuffle(not_dog_files)
 
-split = 0.7
+split = 0.6
 dog_split_index = int(len(dog_files) * split)
 dog_training = dog_files[:dog_split_index]
 dog_testing = dog_files[dog_split_index:]
@@ -36,23 +36,23 @@ testing_dir = os.path.join(os.curdir, 'test')
 
 if not os.path.exists(training_dir):
     os.makedirs(training_dir)
-    os.makedirs(os.path.join(training_dir, "dog"))
+    #os.makedirs(os.path.join(training_dir, "dog"))
     os.makedirs(os.path.join(training_dir, "not_dog"))
 
 if not os.path.exists(testing_dir):
     os.makedirs(testing_dir)
-    os.makedirs(os.path.join(testing_dir, "dog"))
+    #os.makedirs(os.path.join(testing_dir, "dog"))
     os.makedirs(os.path.join(testing_dir, "not_dog"))
 
-for file in dog_training:
-    path1 = os.path.join(dog_dir, file)
-    path2 = os.path.join(training_dir, "dog", file)
-    shutil.copyfile(path1, path2)
+#for file in dog_training:
+#    path1 = os.path.join(dog_dir, file)
+#    path2 = os.path.join(training_dir, "dog", file)
+#    shutil.copyfile(path1, path2)
     
-for file in dog_testing:
-    path1 = os.path.join(dog_dir, file)
-    path2 = os.path.join(testing_dir, "dog", file)
-    shutil.copyfile(path1, path2)
+#for file in dog_testing:
+#    path1 = os.path.join(dog_dir, file)
+#    path2 = os.path.join(testing_dir, "dog", file)
+#    shutil.copyfile(path1, path2)
     
 for file in not_dog_training:
     path1 = os.path.join(not_dog_dir, file)
