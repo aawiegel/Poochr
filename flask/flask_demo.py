@@ -57,7 +57,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Bootstrap(app)
 app.secret_key = 'seeeeecrets'
 app.config['UPLOAD_FOLDER'] = upload_dir
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -69,8 +69,8 @@ def upload_file():
         # check if the post request has the file part
         desc = request.form['desc']
 
-        if len(desc) > 10000:
-            flash('Shorten your text description to less than 10000 characters.')
+        if len(desc) > 1000:
+            flash('Shorten your text description to less than 1000 characters.')
             return redirect(request.url)
 
         if 'image' not in request.files:
