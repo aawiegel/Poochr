@@ -11,8 +11,9 @@ from keras.layers import Activation, Dropout, Flatten, Dense, Reshape
 from keras.layers.pooling import GlobalAveragePooling2D
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.utils import class_weight
+from keras.applications.mobilenet import MobileNet
 
-batch_size = 10
+batch_size = 16
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(rotation_range=60,
