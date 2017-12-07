@@ -9,6 +9,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense, Reshape
 from keras.layers.pooling import GlobalAveragePooling2D
 from keras.preprocessing.image import ImageDataGenerator
+from sklearn.utils import class_weight
 
 batch_size = 10
 
