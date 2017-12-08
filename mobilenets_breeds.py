@@ -40,7 +40,7 @@ train_generator = train_datagen.flow_from_directory(
 
 # this is a similar generator, for validation data
 validation_generator = test_datagen.flow_from_directory(
-        'data/Images/breed_model/test/',
+        'data/Images/breed_model/testing/',
         target_size=(224, 224),
         batch_size=batch_size,
         class_mode='categorical')
