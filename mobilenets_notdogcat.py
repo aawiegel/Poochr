@@ -5,7 +5,7 @@ import numpy as np
 from keras.models import Model
 from keras.optimizers import SGD
 from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, CSVLogger
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense, Reshape
 from keras.layers.pooling import GlobalAveragePooling2D
@@ -77,12 +77,16 @@ notdog_cat_model.load_weights(filepath)
 
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', 
                              verbose=1, save_best_only=True, mode='max')
-callbacks_list = [checkpoint]
+
+csv_logger = CSVLogger('training.log', append=True)
+
+
+callbacks_list = [checkpoint, csv_logger]
 
 notdog_cat_model.fit_generator(
         train_generator,
         steps_per_epoch= train_generator.n // batch_size,
-        epochs=10,
+        epochs=5,
         class_weight=class_weights,
         validation_data=validation_generator,
         validation_steps= validation_generator.n // batch_size,
