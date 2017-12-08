@@ -82,7 +82,7 @@ callbacks_list = [checkpoint]
 notdog_cat_model.fit_generator(
         train_generator,
         steps_per_epoch= train_generator.n // batch_size,
-        epochs=10,
+        epochs=5,
         class_weight=class_weights,
         validation_data=validation_generator,
         validation_steps= validation_generator.n // batch_size,
