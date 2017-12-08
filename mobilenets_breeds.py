@@ -1,6 +1,7 @@
 
 # coding: utf-8
 
+import os
 import numpy as np
 from keras.models import Model
 from keras.optimizers import SGD
